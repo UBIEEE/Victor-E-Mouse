@@ -67,8 +67,11 @@ class Sensor
     }
 };
 
-Sensor right(11, 12);
-Sensor left(9, 10);
+Sensor left(11, 12);
+Sensor right(9, 10);
+
+// Sensor right(11, 12);
+// Sensor left(9, 10);
 Sensor middle(7, 6);
 
 void setup()
