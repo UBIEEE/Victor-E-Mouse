@@ -89,11 +89,17 @@ void setup()
 
 void loop()
 {
-    Serial.print("Right ");
-    right.getReading();
+    /* If reading distance > threshold:
+            timer for amount of time
+            stop
+            turn
+            drive forward */
+
     Serial.print("Left ");
     left.getReading();
     Serial.print("Middle ");
     middle.getReading();
+    Serial.print("Right ");
+    right.getReading();
     Serial.print("\n");
 }
