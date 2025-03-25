@@ -10,7 +10,7 @@ Complete Guide for Ultrasonic Sensor HC-SR04*
       GND: GND
 */
 
-//Test to push to GitHub - Haley 
+// Test to push to GitHub - Haley 
 
 class Sensor
 {
