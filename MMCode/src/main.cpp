@@ -13,7 +13,7 @@ Complete Guide for Ultrasonic Sensor HC-SR04*
 //Test to push to GitHub - Haley 
 // another comment from Haley 
 
-//Motor Code 
+//Motor Shield Code
 
 // Rotary Encoder Inputs
 #define inputCLK 4
