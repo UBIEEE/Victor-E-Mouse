@@ -44,7 +44,7 @@ void setup() {
 
   // Read the initial state of inputCLK
   // Assign to previousStateCLK variable
-  previousStateCLK = digitalRead(inputCLK);
+  previousStateCLK = digitalRead(inputCLK); 
 
 }
 
