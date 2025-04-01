@@ -60,14 +60,14 @@ void loop() {
       counter--;
       encdir ="CCW";
       digitalWrite(ledCW, LOW);
-      digitalWrite(ledCCW, HIGH);
+      //digitalWrite(ledCCW, HIGH);
 
     } else {
       // Encoder is rotating clockwise
       counter++;
       encdir ="CW";
       digitalWrite(ledCW, HIGH);
-      digitalWrite(ledCCW, LOW);
+      //digitalWrite(ledCCW, LOW);
 
     }
     Serial.print("Direction: ");
