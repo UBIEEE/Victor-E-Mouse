@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include <Arduino.h> 
 
 /*
 created by Rui Santos,
@@ -78,6 +78,10 @@ void loop() {
   // Update previousStateCLK with the current state
   previousStateCLK = currentStateCLK;
 }
+
+
+
+
 
 class Sensor
 {
