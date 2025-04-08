@@ -1,25 +1,6 @@
 #include <Arduino.h>
 #include <sensor.h>
 
-/*
-created by Rui Santos,
-Complete Guide for Ultrasonic Sensor HC-SR04*
-  Ultrasonic sensor Pins:
-      VCC: +5VDC
-      Trig : Trigger (INPUT) - Pin11
-      Echo: Echo (OUTPUT) - Pin 12
-      GND: GND
-*/
-
-//Test to push to GitHub - Haley 
-// another comment from Haley 
-
-//Motor Shield Code
-
-// Rotary Encoder Inputs
-
-
-
 
 Sensor left(11, 12);
 Sensor right(9, 10);
