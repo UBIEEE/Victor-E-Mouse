@@ -20,7 +20,7 @@ int brakePin = 9;
 bool directionState;
 
 
-void setup() {
+void motorSheildSetup() {
 
   
 
@@ -36,7 +36,7 @@ pinMode(brakePin, OUTPUT);
 }
 
 
-void loop() {
+void motorSheildloop() {
 
 
 //change direction every loop()
