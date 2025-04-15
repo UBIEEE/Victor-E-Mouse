@@ -11,6 +11,7 @@ Sensor middle(7, 6);
 
 void setup()
 {
+    //Senor Code 
     // Serial Port begin
     Serial.begin(9600);
     // Define inputs and outputs
@@ -24,12 +25,8 @@ void setup()
 
 void loop()
 {
-    /* If reading distance > threshold:
-            timer for amount of time
-            stop
-            turn
-            drive forward */
-
+    
+    //Sensor Code 
     Serial.print("Left ");
     left.getReading();
     Serial.print("Middle ");
