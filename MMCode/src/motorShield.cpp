@@ -1,14 +1,6 @@
 #include <Arduino.h>
 #include <motorMovement.h>
 
-//uncomment if using channel B, and remove above definitions
-
-//int directionPin = 13;
-
-//int pwmPin = 11;
-
-//int brakePin = 8;
-
 Motor::Motor(int dPin, int pPin, int bPin){
     directionPin = dPin; 
     pwmPin = pPin; 
