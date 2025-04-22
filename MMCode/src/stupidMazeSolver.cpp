@@ -1,17 +1,25 @@
 #include <Arduino.h>
 #include <sensor.h>
-#include <motorEncoder.h> 
+#include <motorEncoder.h>
 
-//Getting Sensor Data 
+// Getting Sensor Data
 
-while(true){
-    if (right.getReading() < 10 && left.getReading() < 10){
-        //move forward
-    }
-    else if (right.getReading() < 10 && middle.getReading()){
-        //turn left 
-    }
-    else{
-        //turn right
+void loop()
+{
+
+    while (true)
+    {
+        if (right.getReading() < 10 && left.getReading() < 10)
+        {
+            // move forward
+        }
+        else if (right.getReading() < 10 && middle.getReading())
+        {
+            // turn left
+        }
+        else
+        {
+            // turn right
+        }
     }
 }
