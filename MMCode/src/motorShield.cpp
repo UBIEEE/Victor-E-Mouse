@@ -1,11 +1,5 @@
 #include <Arduino.h>
 #include <motorMovement.h>
-int directionPin = 12;
-
-int pwmPin = 3;
-
-int brakePin = 9;
-
 
 //uncomment if using channel B, and remove above definitions
 
@@ -15,15 +9,21 @@ int brakePin = 9;
 
 //int brakePin = 8;
 
+Motor::Motor(int dPin, int pPin, int bPin){
+    directionPin = dPin; 
+    pwmPin = pPin; 
+    brakePin = bPin; 
+    bool directionState; //boolean to switch direction
 
-//boolean to switch direction
+    
+    // int directionPin = 12;
+    // int pwmPin = 3; 
+    // int brakePin = 9;
 
-bool directionState;
 
+}
 
-void motorSheildSetup() {
-
-  
+void Motor::motorSheildSetup() {
 
 //define pins
 
@@ -37,60 +37,45 @@ pinMode(brakePin, OUTPUT);
 }
 
 
-void motorSheildloop() {
+void Motor::motorSheildloop() {
+    //change direction every loop()
+
+    directionState = !directionState;
 
 
-//change direction every loop()
+    //write a low state to the direction pin (13)
 
-directionState = !directionState;
+    if(directionState == false){
+    digitalWrite(directionPin, LOW);
+    }
+
+    //write a high state to the direction pin (13)
+    else{
+    digitalWrite(directionPin, HIGH);
+    }
+
+    //release breaks
+    digitalWrite(brakePin, LOW);
 
 
-//write a low state to the direction pin (13)
+    //set work duty for the motor
+    analogWrite(pwmPin, 30);
 
-if(directionState == false){
 
-  digitalWrite(directionPin, LOW);
+    delay(2000);
+    //activate breaks
+
+    digitalWrite(brakePin, HIGH);
+    //set work duty for the motor to 0 (off)
+
+    analogWrite(pwmPin, 0);
+    delay(2000);
 
 }
-
-
-//write a high state to the direction pin (13)
-
-else{
-
-  digitalWrite(directionPin, HIGH);
-
-}
-
-
-
-//release breaks
-
-digitalWrite(brakePin, LOW);
-
-
-//set work duty for the motor
-
-analogWrite(pwmPin, 30);
-
-
-delay(2000);
-
-
-//activate breaks
-
-digitalWrite(brakePin, HIGH);
-
-
-//set work duty for the motor to 0 (off)
-
-analogWrite(pwmPin, 0);
-
-
-delay(2000);
 
 void Motor::move(){
+    //release breaks
     return digitalWrite(brakePin, LOW);
 }
 
-}
+
