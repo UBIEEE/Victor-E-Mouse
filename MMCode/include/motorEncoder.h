@@ -1,7 +1,7 @@
 #pragma once
 #include <string> 
 
-class motorEncoder{
+class MotorEncoder{
 
     public: 
         // Rotary Encoder Inputs

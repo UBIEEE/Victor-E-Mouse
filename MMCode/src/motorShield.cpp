@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <motorMovement.h>
 int directionPin = 12;
 
 int pwmPin = 3;
@@ -87,4 +88,9 @@ analogWrite(pwmPin, 0);
 
 
 delay(2000);
+
+void Motor::move(){
+    return digitalWrite(brakePin, LOW);
+}
+
 }

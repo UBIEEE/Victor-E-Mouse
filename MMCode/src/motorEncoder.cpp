@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <motorEncoder.h>
 
-void motorEncoder::motorEncoderSetup(){
+void MotorEncoder::motorEncoderSetup(){
 
     // Set encoder pins as inputs
   pinMode (inputCLK,INPUT);
@@ -20,7 +20,7 @@ void motorEncoder::motorEncoderSetup(){
 }
 
 
-void motorEncoder::motorEncoderLoop(){
+void MotorEncoder::motorEncoderLoop(){
      // Read the current state of inputCLK
   currentStateCLK = digitalRead(inputCLK);
 
@@ -53,5 +53,10 @@ void motorEncoder::motorEncoderLoop(){
   }
   // Update previousStateCLK with the current state
   previousStateCLK = currentStateCLK;
+
+
+  
+
+
 }
 
