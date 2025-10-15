@@ -54,4 +54,3 @@ void motorEncoder::motorEncoderLoop(){
   // Update previousStateCLK with the current state
   previousStateCLK = currentStateCLK;
 }
-

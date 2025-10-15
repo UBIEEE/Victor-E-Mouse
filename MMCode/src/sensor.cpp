@@ -22,7 +22,7 @@ long Sensor::getDuration()
     return duration;
 }
 
-void Sensor::getReading()
+long Sensor::getReading()
 {
     // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
     // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
@@ -46,4 +46,5 @@ void Sensor::getReading()
     Serial.print(cm);
     Serial.println();
     delay(250);
+    return cm;
 }

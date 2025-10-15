@@ -17,5 +17,5 @@ public:
 
     long getDuration();
 
-    void getReading();
+    long getReading();
 };

@@ -1,3 +1,4 @@
+/*
 class cell{
 private:    
     int xPos;
@@ -8,7 +9,7 @@ private:
      bool bottomBorder = true;
      bool leftBorder = true;
      bool isTraversed = false;
-
      bool isGoal = false;
 
 }
+     */

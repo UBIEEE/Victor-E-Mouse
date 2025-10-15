@@ -9,7 +9,7 @@ Sensor right(9, 10);
 // Sensor left(9, 10);
 Sensor middle(7, 6);
 
-void setup()
+void sensorSetup()
 {
     //Senor Code 
     // Serial Port begin
@@ -23,7 +23,7 @@ void setup()
     pinMode(middle.getEcho(), INPUT);
 }
 
-void loop()
+void sensorLoop()
 {
     
     //Sensor Code 
