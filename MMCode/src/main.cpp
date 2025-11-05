@@ -1,3 +1,4 @@
+/*
 #include <Arduino.h>
 #include <sensor.h>
 
@@ -7,7 +8,7 @@ Sensor right(9, 10);
 
 // Sensor right(11, 12);
 // Sensor left(9, 10);
-Sensor middle(7, 6);
+Sensor middle(6, 7);
 
 void sensorSetup()
 {
@@ -36,3 +37,4 @@ void sensorLoop()
     Serial.print("\n");
 
 }// test for conor
+*/

@@ -2,32 +2,60 @@
 #include<sensor.h>
 #include <Button.hpp>
 #include <Drive.hpp>
-
-static const int kButtonPin = 4;
+static const int kButtonPin = 10;
 static Button button;
+
+Sensor left(11, 12);
+Sensor middle(38,67); //change when we have the third sensor later
+
+// Sensor right(11, 12);
+// Sensor left(9, 10);
+Sensor right(13, 1);
+
+void sensorSetup()
+{
+    //Senor Code 
+    // Serial Port begin
+    // Define inputs and outputs
+    pinMode(right.getTrig(), OUTPUT);
+    pinMode(right.getEcho(), INPUT);
+    pinMode(left.getTrig(), OUTPUT);
+    pinMode(left.getEcho(), INPUT);
+}
+
+
 
 void setup() {
   Serial.begin(9600);
-
+  sensorSetup();
   driveSetup();
   button.setupDefaultLow(kButtonPin, true);
+  sensorSetup();
 }
-static Sensor left(6,7); //pins are now 1 and 2 for now you can change them later
 
+void sensorLoop(){
+    
+    //Sensor Code 
+    Serial.println("Left ");
+    left.getReading();
+    Serial.print("Right ");
+    right.getReading();
+    Serial.print("\n");
+
+    
+}
 void loop() {
   // Use the button to control the drivetrain for demo
-  if (button.isPressed()) {
-    if(left.getReading()<1000){
-        driveSetRawSpeeds(0,.5);
+  if(button.isPressed()){
+    if(left.getReading()>30){
+        driveSetRawSpeeds(1,1);
     }
-    else {driveStop();}
-  } else {
+  }
+  else{
     driveStop();
   }
 
-  driveLoop();
 
-  delay(10);
 
   static int count = 0;
   if ((++count * 10) % 250 == 0) { // Print every 250ms
@@ -35,7 +63,6 @@ void loop() {
     float rightEncoderDistance = driveGetRightEncoderDistance();
     float leftEncoderVelocity = driveGetLeftEncoderVelocity();
     float rightEncoderVelocity = driveGetRightEncoderVelocity();
-
     Serial.print("Left Distance: ");
     Serial.print(leftEncoderDistance);
     Serial.print(" Right Distance: ");
@@ -45,5 +72,10 @@ void loop() {
     Serial.print(" Right Velocity: ");
     Serial.print(rightEncoderVelocity);
     Serial.println();
+
   }
+  sensorLoop();
+  driveLoop();
+
+  delay(10);
 }

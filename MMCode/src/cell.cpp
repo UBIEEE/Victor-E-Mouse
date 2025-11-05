@@ -1,4 +1,4 @@
-/*
+
 class cell{
 private:    
     int xPos;
@@ -11,5 +11,4 @@ private:
      bool isTraversed = false;
      bool isGoal = false;
 
-}
-     */
+};

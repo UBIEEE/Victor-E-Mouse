@@ -6,16 +6,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Arduino pins connected to the DRV8833 motor driver. Must all be PWM-capable.
-static const pin_size_t kLeftMotorPin1 = 5;
-static const pin_size_t kLeftMotorPin2 = 6;
-static const pin_size_t kRightMotorPin1 = 9;
-static const pin_size_t kRightMotorPin2 = 10;
+static const pin_size_t kLeftMotorPin1 = 2;
+static const pin_size_t kLeftMotorPin2 =3;
+static const pin_size_t kRightMotorPin1 = 4;
+static const pin_size_t kRightMotorPin2 = 5;
 
 // Arduino pins connected to the encoders. 'A' pins must be interrupt-capable.
-static const pin_size_t kLeftEncoderPinA = 2;
-static const pin_size_t kLeftEncoderPinB = 3;
-static const pin_size_t kRightEncoderPinA = 18;
-static const pin_size_t kRightEncoderPinB = 19;
+static const pin_size_t kLeftEncoderPinA = 6;
+static const pin_size_t kLeftEncoderPinB = 7;
+static const pin_size_t kRightEncoderPinA = 8;
+static const pin_size_t kRightEncoderPinB = 9;
 
 // Motor directions
 static const int kLeftDirectionMultiplier = +1;

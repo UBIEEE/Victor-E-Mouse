@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <motorEncoder.h>
-
+/*
 void motorEncoder::motorEncoderSetup(){
 
     // Set encoder pins as inputs
@@ -50,7 +50,7 @@ void motorEncoder::motorEncoderLoop(){
     Serial.println(counter);
     */
    
-  }
+  //}
   // Update previousStateCLK with the current state
-  previousStateCLK = currentStateCLK;
-}
+  //previousStateCLK = currentStateCLK;
+//}
