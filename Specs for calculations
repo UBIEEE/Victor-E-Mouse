@@ -1,4 +1,6 @@
 width between wheel is 10.3 cm
+diameter of wheels=4cm
+cm to travel for 90 degree turn is 1.28cm
 left tpin 11 epin 12
 right tpin 14 epin 15
 middle tpin ?? epin ??
@@ -10,4 +12,4 @@ static const pin_size_t kRightMotorPin2 = 5;
 static const pin_size_t kLeftEncoderPinA = 6;
 static const pin_size_t kLeftEncoderPinB = 7;
 kRightEncoderPinA = 8;
- kRightEncoderPinB = 9;
+kRightEncoderPinB = 9;
