@@ -3,6 +3,7 @@ class cell{
 private:    
     int xPos;
     int yPos;
+    int goalValue;
      bool isInitialized = false;
      bool topBorder = true;
      bool rightBorder = true;

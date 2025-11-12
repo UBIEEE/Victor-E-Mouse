@@ -10,7 +10,7 @@ Sensor middle(38,67); //change when we have the third sensor later
 
 // Sensor right(11, 12);
 // Sensor left(9, 10);
-Sensor right(13, 1);
+Sensor right(14, 15);
 
 void sensorSetup()
 {
