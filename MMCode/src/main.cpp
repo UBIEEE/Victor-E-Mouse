@@ -8,6 +8,7 @@ Sensor right(9, 10);
 
 // Sensor right(11, 12);
 // Sensor left(9, 10);
+<<<<<<< HEAD
 Sensor middle(6, 7);
 
 void sensorSetup()
@@ -24,7 +25,11 @@ void sensorSetup()
     pinMode(middle.getEcho(), INPUT);
 }
 
+<<<<<<< HEAD
 void sensorLoop()
+=======
+void loop()
+>>>>>>> d5673a26f331b5fc9fa8bf3dbb29815abde60134
 {
     
     //Sensor Code 

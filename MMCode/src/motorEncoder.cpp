@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include <motorEncoder.h>
 /*
+=======
+
+>>>>>>> d5673a26f331b5fc9fa8bf3dbb29815abde60134
 void motorEncoder::motorEncoderSetup(){
 
     // Set encoder pins as inputs
