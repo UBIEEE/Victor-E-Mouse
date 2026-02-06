@@ -6,10 +6,10 @@ right tpin 14 epin 15
 middle tpin ?? epin ??
 button pin 3
 kLeftMotorPin1 = 2;
-static const pin_size_t kLeftMotorPin2 =3;
-static const pin_size_t kRightMotorPin1 = 4;
-static const pin_size_t kRightMotorPin2 = 5;
-static const pin_size_t kLeftEncoderPinA = 6;
-static const pin_size_t kLeftEncoderPinB = 7;
+kLeftMotorPin2 =3;
+kRightMotorPin1 = 4;
+kRightMotorPin2 = 5;
+kLeftEncoderPinA = 6;
+kLeftEncoderPinB = 7;
 kRightEncoderPinA = 8;
 kRightEncoderPinB = 9;
