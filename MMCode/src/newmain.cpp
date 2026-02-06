@@ -5,6 +5,8 @@
 static const int kButtonPin = 10;
 static Button button;
 
+
+
 Sensor left(11, 12);
 Sensor middle(38,67); //change when we have the third sensor later
 
@@ -43,6 +45,24 @@ void sensorLoop(){
     Serial.print("\n");
 
     
+}
+
+void locationLoop(){
+    if(driveGetRightEncoderDistance() && driveGetLeftEncoderDistance() >=11.2){ //whatever a square equals distance wise
+        if(DIRECTION==LEFT){
+            X=X-1;
+        }
+        else if(DIRECTION==RIGHT){
+            X=X+1;
+        }
+        else if(DIRECTION==UP){
+            Y=Y=1;
+        }
+        else if(DIRECTION==DOWN){
+            Y=Y-1;
+        }
+    }
+    driveResetEncoderDistance();
 }
 void loop() {
   // Use the button to control the drivetrain for demo

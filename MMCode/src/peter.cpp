@@ -4,7 +4,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
 ////////////////////////////////////////////////////////////////////////////////
-
 // Arduino pins connected to the DRV8833 motor driver. Must all be PWM-capable.
 static const pin_size_t kLeftMotorPin1 = 2;
 static const pin_size_t kLeftMotorPin2 =3;
@@ -79,6 +78,14 @@ void driveSetup() {
 
   attachInterrupt(leftEncoderPinAInterrupt, leftEncoderPinAChanged, CHANGE);
   attachInterrupt(rightEncoderPinAInterrupt, rightEncoderPinAChanged, CHANGE);
+  for(int i=0; i<16;i++){
+    for(int j=0; j<16;j++){
+        CELL n=GRID[i][j];
+        n.x=i;
+        n.y=j;
+    }
+  }
+  SCANNING=GRID[0][0];
 }
 
 void driveLoop() {
@@ -181,4 +188,18 @@ void rightEncoderPinAChanged() {
   } else { // A leads B
     rightEncoderTicks -= kRightDirectionMultiplier;
   }
+}
+void right90(){
+    driveSetRawSpeeds(1,0);
+    delay(10); // ;( (Imma tweak)
+    DIRECTION=(DIRECTION+1)%4;
+    driveStop();
+
+}
+void left90(){
+    driveSetRawSpeeds(0,1);
+    delay(10); // ;( (Imma tweak)
+    DIRECTION=(DIRECTION-1)%4;
+    driveStop();
+
 }
