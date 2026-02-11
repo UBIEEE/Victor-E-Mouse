@@ -4,6 +4,22 @@
 #include <Drive.hpp>
 static const int kButtonPin = 10;
 static Button button;
+int DIRECTION;
+int X;
+int Y;
+static int UP=0;
+static int LEFT=1;
+static int DOWN=2;
+static int RIGHT =3;
+ class CELL {
+    public:
+    int x;
+    int y;
+    int value;
+};
+static CELL GRID[16][16];
+static int VERTWALL[17][16];
+static int HORIZWALL[16][17];
 
 
 
@@ -47,9 +63,25 @@ void sensorLoop(){
     
 }
 
-void Leftwall(){
+bool Leftwall(){
     if(left.getReading()>90){
-        
+        return false;
+    } else {
+        return true;
+    }
+}
+bool Rightwall(){
+    if(right.getReading()>90){
+        return false;
+    } else {
+        return true;
+    }
+}
+bool Topwall(){
+    if(middle.getReading()>90){
+        return false;
+    } else {
+        return true;
     }
 }
 

@@ -2,7 +2,22 @@
 #include <Drive.hpp>
 #include <sensor.h>
 #include <sensor.cpp>
-
+int DIRECTION;
+int X;
+int Y;
+static int UP=0;
+static int LEFT=1;
+static int DOWN=2;
+static int RIGHT =3;
+ class CELL {
+    public:
+    int x;
+    int y;
+    int value;
+};
+static CELL GRID[16][16];
+static int VERTWALL[17][16];
+static int HORIZWALL[16][17];
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,6 +203,7 @@ void turnRight(){
     delay(10); // ;( (Imma tweak)
     DIRECTION=(DIRECTION+1)%4;
     driveStop();
+    straighten();
     driveResetEncoderDistance();
 
 }
@@ -196,6 +212,7 @@ void turnLeft(){
     delay(10); // ;( (Imma tweak)
     DIRECTION=(DIRECTION-1)%4;
     driveStop();
+    straighten();
     driveResetEncoderDistance();
 
 }
@@ -216,8 +233,46 @@ void driveforward(){
     else if(DIRECTION==DOWN){
         Y=Y-1;
     }
+    straighten();
     driveResetEncoderDistance();
 }
+Sensor left(11, 12);
+Sensor middle(38,67);
+Sensor right(14, 15);
 void straighten(){
-    if(left.getReading)
+    if(left.getReading()<=1){
+        driveSetRawSpeeds(.1,0);
+        driveStop();
+    }
+    else if(right.getReading()<=1){
+        driveSetRawSpeeds(0,.1);
+        driveStop();
+    }
+    else{
+
+    }
+}
+bool leftWall(){
+    if(left.getReading()<=10){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+bool rightWall(){
+    if(right.getReading()<=10){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+bool frontWall(){
+    if(middle.getReading()<=10){
+        return true;
+    }
+    else {
+        return false;
+    }
 }
