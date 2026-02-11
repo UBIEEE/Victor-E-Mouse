@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include <Drive.hpp>
+#include <sensor.h>
+#include <sensor.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -78,14 +80,6 @@ void driveSetup() {
 
   attachInterrupt(leftEncoderPinAInterrupt, leftEncoderPinAChanged, CHANGE);
   attachInterrupt(rightEncoderPinAInterrupt, rightEncoderPinAChanged, CHANGE);
-  for(int i=0; i<16;i++){
-    for(int j=0; j<16;j++){
-        CELL n=GRID[i][j];
-        n.x=i;
-        n.y=j;
-    }
-  }
-  SCANNING=GRID[0][0];
 }
 
 void driveLoop() {
@@ -189,17 +183,41 @@ void rightEncoderPinAChanged() {
     rightEncoderTicks -= kRightDirectionMultiplier;
   }
 }
-void right90(){
-    driveSetRawSpeeds(1,0);
+void turnRight(){
+    driveSetRawSpeeds(1,0); // might have to make it go straight first depending on the sensors
     delay(10); // ;( (Imma tweak)
     DIRECTION=(DIRECTION+1)%4;
     driveStop();
+    driveResetEncoderDistance();
 
 }
-void left90(){
+void turnLeft(){
     driveSetRawSpeeds(0,1);
     delay(10); // ;( (Imma tweak)
     DIRECTION=(DIRECTION-1)%4;
     driveStop();
+    driveResetEncoderDistance();
 
+}
+
+void driveforward(){
+    driveSetRawSpeeds(1,1);
+    delay(10); // ill tweak and probably use encoders
+    driveStop();
+    if(DIRECTION==LEFT){
+        X=X-1;
+    }
+    else if(DIRECTION==RIGHT){
+        X=X+1;
+    }
+    else if(DIRECTION==UP){
+        Y=Y+1;
+    }
+    else if(DIRECTION==DOWN){
+        Y=Y-1;
+    }
+    driveResetEncoderDistance();
+}
+void straighten(){
+    if(left.getReading)
 }

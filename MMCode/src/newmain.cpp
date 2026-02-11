@@ -47,23 +47,12 @@ void sensorLoop(){
     
 }
 
-void locationLoop(){
-    if(driveGetRightEncoderDistance() && driveGetLeftEncoderDistance() >=11.2){ //whatever a square equals distance wise
-        if(DIRECTION==LEFT){
-            X=X-1;
-        }
-        else if(DIRECTION==RIGHT){
-            X=X+1;
-        }
-        else if(DIRECTION==UP){
-            Y=Y=1;
-        }
-        else if(DIRECTION==DOWN){
-            Y=Y-1;
-        }
+void Leftwall(){
+    if(left.getReading()>90){
+        
     }
-    driveResetEncoderDistance();
 }
+
 void loop() {
   // Use the button to control the drivetrain for demo
   if(button.isPressed()){
