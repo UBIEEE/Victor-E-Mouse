@@ -10,6 +10,8 @@ public:
 
   bool isPressed() const;
 
+  bool wasPressed() const;
+
 private:
   int m_pin = -1;
   bool m_isInverted = false;
