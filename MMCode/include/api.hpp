@@ -1,10 +1,7 @@
 #pragma once
 
-class CELL {
-    public:
-    int x;
-    int y;
-    int value;
+struct Position {
+    int x, y, direction;
 };
 
 void straighten();

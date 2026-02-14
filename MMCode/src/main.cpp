@@ -2,17 +2,25 @@
 #include <sensor.h>
 #include <Button.hpp>
 #include <Drive.hpp>
+#include <floodfill.hpp>
 #include <api.hpp>
 static const int kButtonPin = 10;
 static Button button;
 
-static int GRID[16][16];
-static int VERTWALL[17][16];
-static int HORIZWALL[16][17];
+// Stuff for floodfill
+static int man[16][16];
+static int vert[17][16];
+static int hori[16][17];
+struct Position *position = new Position;
 int FLAG;
+int IDLE = 0;
+int FINDING = 1;
+int IDLEWITHPATH = 2;
+int EXECUTE = 3;
 
+// Sensors
 Sensor left(11, 12);
-Sensor middle(38,67); //change when we have the third sensor later
+Sensor middle(38, 67); // change when we have the third sensor later
 Sensor right(14, 15);
 
 void sensorSetup()
@@ -45,19 +53,19 @@ void sensorLoop(){
 
 void loop() {
     // Use the button to control the drivetrain for demo
-    if(button.isPressed() && FLAG==0){
-       FLAG==1;
+    if(button.isPressed() && FLAG == IDLE){
+       FLAG == FINDING;
     }
-    else if(FLAG==1){
+    else if(FLAG == FINDING){
         //put initial path finding here and have it stop where it started and set Flag to 2 at the end
-        FLAG==2;
+        FLAG == IDLEWITHPATH;
     }
-    else if(button.isPressed() && FLAG==2){
-        FLAG==3;
+    else if(button.isPressed() && FLAG == IDLEWITHPATH){
+        FLAG == EXECUTE;
     }
-    else if(FLAG==3){
+    else if(FLAG == EXECUTE){
         //have it run to the middle of the maze and set flag to 0 at the end
-        FLAG==0;
+        FLAG == IDLE;
     }
 
   static int count = 0;
