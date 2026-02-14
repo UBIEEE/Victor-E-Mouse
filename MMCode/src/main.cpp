@@ -17,7 +17,7 @@ Sensor right(14, 15);
 
 void sensorSetup()
 {
-    // Sensor Code 
+    // Sensor Code
     // Serial Port begin
     // Define inputs and outputs
     pinMode(right.getTrig(), OUTPUT);
