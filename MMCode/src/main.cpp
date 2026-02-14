@@ -6,7 +6,7 @@
 static const int kButtonPin = 10;
 static Button button;
 
-static CELL GRID[16][16];
+static int GRID[16][16];
 static int VERTWALL[17][16];
 static int HORIZWALL[16][17];
 int FLAG;
