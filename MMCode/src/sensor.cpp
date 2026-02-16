@@ -60,6 +60,3 @@ long Sensor::getReading()
     delay(250);
     return cm;
 }
-Sensor left(11, 12);
-Sensor middle(38,67); //change when we have the third sensor later
-Sensor right(14, 15);

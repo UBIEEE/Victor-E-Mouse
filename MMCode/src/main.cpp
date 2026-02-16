@@ -18,11 +18,6 @@ int FINDING = 1;
 int IDLEWITHPATH = 2;
 int EXECUTE = 3;
 
-// Sensors
-Sensor left(11, 12);
-Sensor middle(38, 67); // change when we have the third sensor later
-Sensor right(14, 15);
-
 void sensorSetup()
 {
     // Sensor Code

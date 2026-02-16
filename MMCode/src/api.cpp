@@ -2,6 +2,7 @@
 #include <sensor.h>
 #include <Button.hpp>
 #include <Drive.hpp>
+#include <sensor.h>
 
 int DIRECTION;
 int X;
@@ -10,10 +11,6 @@ static int UP = 0;
 static int LEFT = 1;
 static int DOWN = 2;
 static int RIGHT = 3;
-
-Sensor left(11, 12);
-Sensor middle(38, 67); //change when we have the third sensor later
-Sensor right(14, 15);
 
 void turnRight() {
     driveSetRawSpeeds(1, 0); // might have to make it go straight first depending on the sensors

@@ -98,6 +98,11 @@ void driveLoop() {
 
     lastLoopLeftEncoderTicks = currentLeftEncoderTicks;
     lastLoopRightEncoderTicks = currentRightEncoderTicks;
+
+    int deltaLoop=deltaRightTicks-deltaLeftTicks;
+    int proportion=1;
+    int turnrate;
+    turnrate=deltaLoop*proportion;
   }
 
   lastLoopTimeMs = currentTimeMs;
