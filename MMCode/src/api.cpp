@@ -13,27 +13,58 @@ static int DOWN = 2;
 static int RIGHT = 3;
 
 void turnRight() {
-    driveSetRawSpeeds(1, 0); // might have to make it go straight first depending on the sensors
-    delay(10); // ;( (Imma tweak)
-    DIRECTION = (DIRECTION + 1) % 4;
-    driveStop();
-    straighten();
+    bool complete=false;
+    int funny;
+    int funnyturnleft; //adjust
+    int funnyturnright;
+    while(!complete){
+        while(driveGetLeftEncoderDistance()<funny && driveGetRightEncoderDistance()<funny){
+            driveSetRawSpeeds(1,1);//multiply by pid proportions
+        }
+        driveStop();
+        while(driveGetLeftEncoderDistance()<funnyturnleft && driveGetRightEncoderDistance()<funnyturnright){
+            driveSetRawSpeeds(-1,1);//again multiply
+        }
+        driveStop();
+    }
     driveResetEncoderDistance();
+    DIRECTION = (DIRECTION - 1) % 4;
+    delay(10);
+    straighten();
 
 }
 void turnLeft() {
-    driveSetRawSpeeds(0, 1);
-    delay(10); // ;( (Imma tweak)
-    DIRECTION = (DIRECTION - 1) % 4;
-    driveStop();
-    straighten();
+    bool complete=false;
+    int funny;
+    int funnyturnleft; //adjust
+    int funnyturnright;
+    while(!complete){
+        while(driveGetLeftEncoderDistance()<funny && driveGetRightEncoderDistance()<funny){
+            driveSetRawSpeeds(1,1);//multiply by pid proportions
+        }
+        driveStop();
+        while(driveGetLeftEncoderDistance()<funnyturnleft && driveGetRightEncoderDistance()<funnyturnright){
+            driveSetRawSpeeds(-1,1);//again multiply
+        }
+        driveStop();
+    }
     driveResetEncoderDistance();
+    DIRECTION = (DIRECTION - 1) % 4;
+    delay(10);
+    straighten();
 }
 
 void moveForward() {
-    driveSetRawSpeeds(1, 1);
-    delay(10); // ill tweak and probably use encoders
-    driveStop();
+    bool complete=false;
+    int funny;
+    while(!complete){
+        while(driveGetLeftEncoderDistance()<funny && driveGetRightEncoderDistance()<funny){
+            driveSetRawSpeeds(1,1);//multiply by pid proportions
+        }
+        driveStop();
+        driveResetEncoderDistance();
+        straighten();
+    }
     if(DIRECTION == LEFT){
         X = X - 1;
     }
@@ -46,19 +77,29 @@ void moveForward() {
     else if(DIRECTION == DOWN){
         Y = Y - 1;
     }
-    straighten();
-    driveResetEncoderDistance();
+    delay(10); //ill change
 }
 
 void straighten() {
-    if(left.getReading() <= 1){
-        driveSetRawSpeeds(.1, 0);
-        driveStop();
+    bool complete=false;
+    int funny;
+    int funnyturnleft; //adjust
+    int funnyturnright;
+    while(!complete){
+        if(left.getReading()<=1){
+            //turn right
+            //back up a while to striaghten
+            //go back out to center
+            //turn back left
+        }
+        else if(right.getReading() <= 1){
+            driveSetRawSpeeds(0, .1);
+            driveStop();
+        }
+        else if (middle.getReading()<=1){
+
     }
-    else if(right.getReading() <= 1){
-        driveSetRawSpeeds(0, .1);
-        driveStop();
-    }
+}
 }
 
 bool leftWall() {
