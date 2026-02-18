@@ -8,6 +8,7 @@ static const int kButtonPin = 10;
 static Button button;
 
 // Stuff for floodfill
+// Equivalent of first half of mms main code
 static int man[16][16];
 static int vert[17][16];
 static int hori[16][17];

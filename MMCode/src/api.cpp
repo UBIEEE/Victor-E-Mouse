@@ -128,3 +128,12 @@ bool frontWall() {
         return false;
     }
 }
+void right90();
+
+void left90();
+
+void fowardBeforeTurn();
+
+void fowardAfterTurn();
+
+void foward();
