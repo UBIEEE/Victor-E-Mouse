@@ -3,103 +3,69 @@
 #include <Button.hpp>
 #include <Drive.hpp>
 #include <sensor.h>
-
-int DIRECTION;
-int X;
-int Y;
-static int UP = 0;
-static int LEFT = 1;
-static int DOWN = 2;
-static int RIGHT = 3;
-
+#include <api.hpp>
 void turnRight() {
-    bool complete=false;
-    int funny;
-    int funnyturnleft; //adjust
-    int funnyturnright;
-    while(!complete){
-        while(driveGetLeftEncoderDistance()<funny && driveGetRightEncoderDistance()<funny){
-            driveSetRawSpeeds(1,1);//multiply by pid proportions
-        }
-        driveStop();
-        while(driveGetLeftEncoderDistance()<funnyturnleft && driveGetRightEncoderDistance()<funnyturnright){
-            driveSetRawSpeeds(-1,1);//again multiply
-        }
-        driveStop();
-    }
-    driveResetEncoderDistance();
-    DIRECTION = (DIRECTION - 1) % 4;
-    delay(10);
+    forwardBeforeTurn();
+    right90();
+    forwardAfterTurn();
     straighten();
 
 }
-void turnLeft() {
-    bool complete=false;
-    int funny;
-    int funnyturnleft; //adjust
-    int funnyturnright;
-    while(!complete){
-        while(driveGetLeftEncoderDistance()<funny && driveGetRightEncoderDistance()<funny){
-            driveSetRawSpeeds(1,1);//multiply by pid proportions
-        }
-        driveStop();
-        while(driveGetLeftEncoderDistance()<funnyturnleft && driveGetRightEncoderDistance()<funnyturnright){
-            driveSetRawSpeeds(-1,1);//again multiply
-        }
-        driveStop();
-    }
-    driveResetEncoderDistance();
-    DIRECTION = (DIRECTION - 1) % 4;
-    delay(10);
+
+void turnRight() {
+    forwardBeforeTurn();
+    left90();
+    forwardAfterTurn();
     straighten();
 }
 
 void moveForward() {
     bool complete=false;
-    int funny;
+    driveResetEncoderDistance();
     while(!complete){
-        while(driveGetLeftEncoderDistance()<funny && driveGetRightEncoderDistance()<funny){
-            driveSetRawSpeeds(1,1);//multiply by pid proportions
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=1*leftAdjustment;
+            float rightSpeed=1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
-        driveResetEncoderDistance();
-        straighten();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
     }
-    if(DIRECTION == LEFT){
-        X = X - 1;
-    }
-    else if(DIRECTION == RIGHT){
-        X = X + 1;
-    }
-    else if(DIRECTION == UP){
-        Y = Y + 1;
-    }
-    else if(DIRECTION == DOWN){
-        Y = Y - 1;
-    }
-    delay(10); //ill change
+    straighten();
 }
 
-void straighten() {
+void straighten(){
     bool complete=false;
-    int funny;
-    int funnyturnleft; //adjust
-    int funnyturnright;
     while(!complete){
-        if(left.getReading()<=1){
-            //turn right
-            //back up a while to striaghten
-            //go back out to center
-            //turn back left
+        if(left.getReading()<=1){ // adjust
+            right90();
+            backward();
+            forwardToCenter();
+            left90();
         }
-        else if(right.getReading() <= 1){
-            driveSetRawSpeeds(0, .1);
-            driveStop();
+        else if(right.getReading() <= 1){ //adjust
+            left90();
+            backward();
+            forwardToCenter();
+            right90();
         }
-        else if (middle.getReading()<=1){
-
+        else if (middle.getReading()<=1){ //adjust
+            left90();
+            left90();
+            backward();
+            forwardToCenter();
+        }
+        complete=true;
     }
-}
 }
 
 bool leftWall() {
@@ -128,12 +94,169 @@ bool frontWall() {
         return false;
     }
 }
-void right90();
+void right90(){
+bool complete=false;
+    driveResetEncoderDistance();
+    while(!complete){
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=1*leftAdjustment;
+            float rightSpeed=-1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
+        }
+        driveStop();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
+    }
 
-void left90();
+}
 
-void fowardBeforeTurn();
+void left90(){
+    bool complete=false;
+    driveResetEncoderDistance();
+    while(!complete){
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=-1*leftAdjustment;
+            float rightSpeed=1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
+        }
+        driveStop();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
+    }
 
-void fowardAfterTurn();
+}
 
-void foward();
+void forwardBeforeTurn(){
+    bool complete=false;
+    driveResetEncoderDistance();
+    while(!complete){
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=1*leftAdjustment;
+            float rightSpeed=1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
+        }
+        driveStop();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
+    }
+}
+
+void forwardAfterTurn(){
+    bool complete=false;
+    driveResetEncoderDistance();
+    while(!complete){
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=1*leftAdjustment;
+            float rightSpeed=1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
+        }
+        driveStop();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
+    }
+}
+
+void backward(){
+    bool complete=false;
+    driveResetEncoderDistance();
+    while(!complete){
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=1*leftAdjustment;
+            float rightSpeed=1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
+        }
+        driveStop();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
+    }
+}
+
+void forwardToCenter(){
+    bool complete=false;
+    driveResetEncoderDistance();
+    while(!complete){
+        count=count+1;
+        float targetturnleft; //adjust
+        float targetturnright;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+            float leftSpeed=1*leftAdjustment;
+            float rightSpeed=1*rightAdjustment;
+            driveSetRawSpeeds(leftSpeed,rightSpeed);
+        }
+        driveStop();
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float rightError=driveGetRightEncoderDistance()-targetturnright;
+        leftTotalError=(leftTotalError+leftError)/count;
+        rightTotalError=(rightTotalError+rightError)/count;
+        leftAdjustment=constant*leftTotalError;
+        rightAdjustment=constant*rightTotalError;
+        complete=true;
+    }
+}
+
+void goalTurnAround(){
+    if(left.getReading()<1){ //adjust
+        moveForward();
+        left90();
+        left90();
+        backward();
+        forwardToCenter();
+        left90();
+        backward();
+        forwardToCenter();
+        right90();
+        moveForward();
+    }
+    else if(right.getReading()<1){ //adjust
+        moveForward();
+        right90();
+        right90();
+        backward();
+        forwardToCenter();
+        right90();
+        backward();
+        forwardToCenter();
+        left90();
+        moveForward();
+    }
+}
