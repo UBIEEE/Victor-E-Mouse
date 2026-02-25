@@ -12,7 +12,7 @@ void turnRight() {
 
 }
 
-void turnRight() {
+void turnLeft() {
     forwardBeforeTurn();
     left90();
     forwardAfterTurn();
@@ -99,9 +99,9 @@ bool complete=false;
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+        float targetturnleft=1.2875; //adjust
+        float targetturnright=-1.2875;
+        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()>targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=-1*rightAdjustment;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
@@ -123,9 +123,9 @@ void left90(){
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
+        float targetturnleft=-1.2875; //adjust
+        float targetturnright=1.2875;
+        while(driveGetLeftEncoderDistance()>targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=-1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
