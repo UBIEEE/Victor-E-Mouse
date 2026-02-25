@@ -32,12 +32,19 @@ void right90();
 
 void left90();
 
-void fowardBeforeTurn();
+void forwardBeforeTurn();
 
-void fowardAfterTurn();
-
-void foward();
+void forwardAfterTurn();
 
 void backward();
 
 void straighten();
+
+void forwardToCenter();
+
+extern float count;
+extern float leftAdjustment;
+extern float rightAdjustment;
+extern float leftTotalError;
+extern float rightTotalError;
+extern float constant;
