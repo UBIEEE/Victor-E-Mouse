@@ -4,6 +4,12 @@
 #include <Drive.hpp>
 #include <sensor.h>
 #include <api.hpp>
+float count=0;
+float leftAdjustment=1;
+float rightAdjustment=1;
+float leftTotalError=0;
+float rightTotalError=0;
+static const float constant=1;
 void turnRight() {
     forwardBeforeTurn();
     right90();
@@ -24,8 +30,8 @@ void moveForward() {
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
+        float targetturnleft=0; //adjust
+        float targetturnright=0;
         while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;
@@ -147,8 +153,8 @@ void forwardBeforeTurn(){
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
+        float targetturnleft=0; //adjust
+        float targetturnright=0;
         while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;
@@ -170,8 +176,8 @@ void forwardAfterTurn(){
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
+        float targetturnleft=0; //adjust
+        float targetturnright=0;
         while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;
@@ -193,8 +199,8 @@ void backward(){
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
+        float targetturnleft=0; //adjust
+        float targetturnright=0;
         while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;
@@ -216,8 +222,8 @@ void forwardToCenter(){
     driveResetEncoderDistance();
     while(!complete){
         count=count+1;
-        float targetturnleft; //adjust
-        float targetturnright;
+        float targetturnleft=0; //adjust
+        float targetturnright=0;
         while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;

@@ -4,9 +4,8 @@
 #include <Drive.hpp>
 #include <floodfill.hpp>
 #include <api.hpp>
-static const int kButtonPin = 10;
+static const int kButtonPin = 21;
 static Button button;
-
 // Stuff for floodfill
 // Equivalent of first half of mms main code
 static int man[16][16];
@@ -44,6 +43,8 @@ void sensorLoop(){
     left.getReading();
     Serial.print("Right ");
     right.getReading();
+    Serial.print("Middle");
+    middle.getReading();
     Serial.print("\n");
 }
 
@@ -53,7 +54,7 @@ void loop() {
        FLAG == FINDING;
     }
     else if(FLAG == FINDING){
-        //put initial path finding here and have it stop where it started and set Flag to 2 at the end
+        left90();//put initial path finding here and have it stop where it started and set Flag to 2 at the end
         FLAG == IDLEWITHPATH;
     }
     else if(button.isPressed() && FLAG == IDLEWITHPATH){

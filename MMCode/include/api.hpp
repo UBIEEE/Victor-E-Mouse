@@ -1,9 +1,5 @@
 #pragma once
 
-struct Position
-{
-    int x, y, direction;
-};
 
 bool wallRight();
 
@@ -17,9 +13,6 @@ void turnLeft();
 
 void moveForward();
 
-void changeDir(Position *position, char direction);
-
-void movePositionForward(Position *position);
 
 void firstTurnLeft();
 
@@ -41,10 +34,3 @@ void backward();
 void straighten();
 
 void forwardToCenter();
-
-extern float count;
-extern float leftAdjustment;
-extern float rightAdjustment;
-extern float leftTotalError;
-extern float rightTotalError;
-extern float constant;

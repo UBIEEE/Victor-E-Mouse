@@ -4,7 +4,10 @@ struct Cell
 {
     int x, y;
 };
-
+struct Position
+{
+    int x, y, direction;
+};
 bool is_not_center(Position *position);
 
 bool is_not_start(Position *position);
@@ -18,3 +21,7 @@ void move(struct Position *position, int hori[16][17], int vert[17][16], int man
 void mark_walls(struct Position *position, int hori[16][17], int ver[17][16]);
 
 void set_walls(int hori[16][17], int vert[17][16]);
+
+void changeDir(Position *position, char direction);
+
+void movePositionForward(Position *position);

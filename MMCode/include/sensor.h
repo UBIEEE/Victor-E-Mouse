@@ -18,8 +18,7 @@ public:
     long getDuration();
 
     long getReading();
-    
 };
-extern Sensor left(11, 12);
-extern Sensor middle(38,67); //change when we have the third sensor later
-extern Sensor right(14, 15);
+    extern Sensor left;
+    extern Sensor middle; //change when we have the third sensor later
+    extern Sensor right;

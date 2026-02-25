@@ -18,6 +18,9 @@ Sensor::Sensor(int tPin, int ePin)
     trigPin = tPin;
     echoPin = ePin;
 }
+    Sensor left(20, 19);
+    Sensor middle(23,22); //change when we have the third sensor later
+    Sensor right(15, 14);
 
 int Sensor::getTrig()
 {

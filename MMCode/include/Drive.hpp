@@ -24,8 +24,6 @@ void driveSetRawSpeeds(float leftPercent, float rightPercent);
  * @brief Stop both motors.
  */
 void driveStop();
-extern float turnrate;
-// for PID
 /**
  * @brief Get the distance driven by the left wheel since the last reset.
  *
