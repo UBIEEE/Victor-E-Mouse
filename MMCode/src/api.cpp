@@ -33,9 +33,9 @@ void moveForward() {
         count=count+1; //adds a count of distance travel functions called
         float targetturnleft=0; 
         float targetturnright=0; //values for distance wanted to travel per wheel
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
-            float leftSpeed=1*leftAdjustment;
-            float rightSpeed=1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=1;
+            float rightSpeed=1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
@@ -108,9 +108,9 @@ bool complete=false;
         count=count+1;
         float targetturnleft=1.2875; //adjust
         float targetturnright=-1.2875;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()>targetturnright){
-            float leftSpeed=1*leftAdjustment;
-            float rightSpeed=-1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=1;
+            float rightSpeed=-1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
@@ -132,9 +132,9 @@ void left90(){
         count=count+1;
         float targetturnleft=-1.2875; //adjust
         float targetturnright=1.2875;
-        while(driveGetLeftEncoderDistance()>targetturnleft && driveGetRightEncoderDistance()<targetturnright){
-            float leftSpeed=-1*leftAdjustment;
-            float rightSpeed=1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=-1;
+            float rightSpeed=1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
@@ -156,9 +156,9 @@ void forwardBeforeTurn(){
         count=count+1;
         float targetturnleft=0; //adjust
         float targetturnright=0;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
-            float leftSpeed=1*leftAdjustment;
-            float rightSpeed=1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=1;
+            float rightSpeed=1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
@@ -179,9 +179,9 @@ void forwardAfterTurn(){
         count=count+1;
         float targetturnleft=0; //adjust
         float targetturnright=0;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
-            float leftSpeed=1*leftAdjustment;
-            float rightSpeed=1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=1;
+            float rightSpeed=1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
@@ -202,9 +202,9 @@ void backward(){
         count=count+1;
         float targetturnleft=0; //adjust
         float targetturnright=0;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
-            float leftSpeed=1*leftAdjustment;
-            float rightSpeed=1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=-1;
+            float rightSpeed=-1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
@@ -225,9 +225,9 @@ void forwardToCenter(){
         count=count+1;
         float targetturnleft=0; //adjust
         float targetturnright=0;
-        while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
-            float leftSpeed=1*leftAdjustment;
-            float rightSpeed=1*rightAdjustment;
+        while(driveGetLeftEncoderDistance()<targetturnleft*leftAdjustment && driveGetRightEncoderDistance()<targetturnright*rightAdjustment){
+            float leftSpeed=1;
+            float rightSpeed=1;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
