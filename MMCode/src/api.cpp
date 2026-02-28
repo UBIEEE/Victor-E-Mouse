@@ -10,6 +10,7 @@ float rightAdjustment=1;
 float leftTotalError=0;
 float rightTotalError=0;
 static const float constant=1;
+
 void turnRight() {
     forwardBeforeTurn();
     right90();
@@ -27,23 +28,23 @@ void turnLeft() {
 
 void moveForward() {
     bool complete=false;
-    driveResetEncoderDistance();
+    driveResetEncoderDistance(); //resets distance
     while(!complete){
-        count=count+1;
-        float targetturnleft=0; //adjust
-        float targetturnright=0;
+        count=count+1; //adds a count of distance travel functions called
+        float targetturnleft=0; 
+        float targetturnright=0; //values for distance wanted to travel per wheel
         while(driveGetLeftEncoderDistance()<targetturnleft && driveGetRightEncoderDistance()<targetturnright){
             float leftSpeed=1*leftAdjustment;
             float rightSpeed=1*rightAdjustment;
             driveSetRawSpeeds(leftSpeed,rightSpeed);
         }
         driveStop();
-        float leftError=driveGetLeftEncoderDistance()-targetturnleft;
+        float leftError=driveGetLeftEncoderDistance()-targetturnleft; // difference between target and value traveled
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
     straighten();
@@ -115,10 +116,10 @@ bool complete=false;
         driveStop();
         float leftError=driveGetLeftEncoderDistance()-targetturnleft;
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
 
@@ -139,10 +140,10 @@ void left90(){
         driveStop();
         float leftError=driveGetLeftEncoderDistance()-targetturnleft;
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
 
@@ -163,10 +164,10 @@ void forwardBeforeTurn(){
         driveStop();
         float leftError=driveGetLeftEncoderDistance()-targetturnleft;
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
 }
@@ -186,10 +187,10 @@ void forwardAfterTurn(){
         driveStop();
         float leftError=driveGetLeftEncoderDistance()-targetturnleft;
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
 }
@@ -209,10 +210,10 @@ void backward(){
         driveStop();
         float leftError=driveGetLeftEncoderDistance()-targetturnleft;
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
 }
@@ -232,10 +233,10 @@ void forwardToCenter(){
         driveStop();
         float leftError=driveGetLeftEncoderDistance()-targetturnleft;
         float rightError=driveGetRightEncoderDistance()-targetturnright;
-        leftTotalError=(leftTotalError+leftError)/count;
-        rightTotalError=(rightTotalError+rightError)/count;
-        leftAdjustment=constant*leftTotalError;
-        rightAdjustment=constant*rightTotalError;
+        leftTotalError=(leftTotalError+leftError); //add difference and divide
+        rightTotalError=(rightTotalError+rightError);
+        leftAdjustment=constant*(leftTotalError/count);
+        rightAdjustment=constant*(rightTotalError/count);
         complete=true;
     }
 }

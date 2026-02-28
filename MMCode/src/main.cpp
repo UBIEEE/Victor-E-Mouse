@@ -12,12 +12,11 @@ static int man[16][16];
 static int vert[17][16];
 static int hori[16][17];
 struct Position *position = new Position;
-int FLAG;
+int FLAG=0;
 int IDLE = 0;
 int FINDING = 1;
 int IDLEWITHPATH = 2;
 int EXECUTE = 3;
-
 void sensorSetup()
 {
     // Sensor Code
@@ -49,12 +48,18 @@ void sensorLoop(){
 }
 
 void loop() {
+    Serial.print(FLAG);
+    int m=button.isPressed();
+    Serial.print("button");
+    Serial.print(m);
     // Use the button to control the drivetrain for demo
     if(button.isPressed() && FLAG == IDLE){
-       FLAG == FINDING;
+        Serial.print("flag");
+        left90();
+        FLAG = FINDING;
     }
     else if(FLAG == FINDING){
-        left90();//put initial path finding here and have it stop where it started and set Flag to 2 at the end
+        //put initial path finding here and have it stop where it started and set Flag to 2 at the end
         FLAG == IDLEWITHPATH;
     }
     else if(button.isPressed() && FLAG == IDLEWITHPATH){
