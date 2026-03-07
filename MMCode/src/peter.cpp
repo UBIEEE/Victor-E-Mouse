@@ -4,20 +4,20 @@
 // Constants
 ////////////////////////////////////////////////////////////////////////////////
 // Arduino pins connected to the DRV8833 motor driver. Must all be PWM-capable.
-static const pin_size_t kLeftMotorPin1 =10;
-static const pin_size_t kLeftMotorPin2 =9;
-static const pin_size_t kRightMotorPin1 = 12;
-static const pin_size_t kRightMotorPin2 = 11;
+static const pin_size_t kLeftMotorPin1 =D2;
+static const pin_size_t kLeftMotorPin2 =D3;
+static const pin_size_t kRightMotorPin1 = D4; 
+static const pin_size_t kRightMotorPin2 = D5; 
 
 // Arduino pins connected to the encoders. 'A' pins must be interrupt-capable.
-static const pin_size_t kLeftEncoderPinA = 6;
-static const pin_size_t kLeftEncoderPinB = 8;
-static const pin_size_t kRightEncoderPinA = 7;
-static const pin_size_t kRightEncoderPinB = 9;
+static const pin_size_t kLeftEncoderPinA = D7;
+static const pin_size_t kLeftEncoderPinB = D6;
+static const pin_size_t kRightEncoderPinA = D9; 
+static const pin_size_t kRightEncoderPinB = D8; 
 
 // Motor directions
-static const int kLeftDirectionMultiplier = +1;
-static const int kRightDirectionMultiplier = -1;
+static const int kLeftDirectionMultiplier = -1;
+static const int kRightDirectionMultiplier = 1;
 
 // Encoder Constants
 
@@ -29,7 +29,7 @@ static const int kRightDirectionMultiplier = -1;
  * Currently the units of distance are _wheel rotations_ for an encoder with 6
  * radial poles and a 50:1 gear ratio.
  */
-static const float kDistancePerTick = 1.f / (6.f * 50.f);
+static const float kDistancePerTick = (1.f / (6.f * 50.f))*(25.13);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Static function prototypes
@@ -52,10 +52,41 @@ static unsigned long lastLoopTimeMs = 0;
 
 static float leftEncoderTicksPerSecond = 0.f;
 static float rightEncoderTicksPerSecond = 0.f;
+static unsigned long deltaTimeMs;
+
+float lprevEr=0;
+float lposEr=0;
+float ltotalEr=0;
+float rprevEr=0;
+float rposEr=0;
+float rtotalEr=0;
+float llast;
+float rlast;
+float lkp=.0002;
+float lki=.000;
+float lkd=0.00;
+float rkp=.0002;
+float rki=.00000;
+float rkd=0.0000;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
 ////////////////////////////////////////////////////////////////////////////////
+// class from peter
+PIDController::PIDController(float kp,
+                             float ki,
+                             float kd,
+                             float dt,
+                             float min_integral,
+                             float max_integral)
+    : m_kp(kp),
+      m_ki(ki),
+      m_kd(kd),
+      m_dt(dt),
+      m_min_integral(min_integral),
+      m_max_integral(max_integral) {}
+
+
 
 void driveSetup() {
   // DRV8833
@@ -81,7 +112,7 @@ void driveSetup() {
 
 void driveLoop() {
   const unsigned long currentTimeMs = millis();
-  const unsigned long deltaTimeMs = currentTimeMs - lastLoopTimeMs;
+  deltaTimeMs = currentTimeMs - lastLoopTimeMs;
 
   // Update encoder velocities
   {
@@ -98,14 +129,33 @@ void driveLoop() {
 
     lastLoopLeftEncoderTicks = currentLeftEncoderTicks;
     lastLoopRightEncoderTicks = currentRightEncoderTicks;
-
-    int deltaLoop=deltaRightTicks-deltaLeftTicks;
-    int turnrate;
   }
 
   lastLoopTimeMs = currentTimeMs;
 
   // In the future, add PID control or other periodic drivetrain tasks.
+}
+float PIDHELPLEFT(float setpoint){
+    float now=millis();
+    float measurement=driveGetLeftEncoderVelocity();
+    float delta=now-llast;
+    lprevEr=lposEr;
+    lposEr=setpoint-measurement;
+    float vel=(lposEr-lprevEr)/delta;
+    ltotalEr=ltotalEr+lposEr*delta;
+    llast=now;
+    return lkp*lposEr+lki*ltotalEr+lkd*vel;
+}
+float PIDHELPRIGHT(float setpoint){
+    float now=millis();
+    float measurement=driveGetRightEncoderVelocity();
+    float delta=now-rlast;
+    rprevEr=rposEr;
+    rposEr=setpoint-measurement;
+    float vel=(rposEr-rprevEr)/delta;
+    rtotalEr=rtotalEr+rposEr*delta;
+    rlast=now;
+    return rkp*rposEr+rki*rtotalEr+rkd*vel;
 }
 
 void driveSetRawSpeeds(float leftPercent, float rightPercent) {

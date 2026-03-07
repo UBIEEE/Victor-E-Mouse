@@ -3,7 +3,7 @@
 
 /*
  * created by Rui Santos, https://randomnerdtutorials.com
- * 
+ *
  * Complete Guide for Ultrasonic Sensor HC-SR04
  *
     Ultrasonic sensor Pins:
@@ -18,9 +18,9 @@ Sensor::Sensor(int tPin, int ePin)
     trigPin = tPin;
     echoPin = ePin;
 }
-    Sensor left(20, 19);
-    Sensor middle(23,22); //change when we have the third sensor later
-    Sensor right(15, 14);
+Sensor left(A1, A0);
+Sensor middle(A4, A3); // change when we have the third sensor later
+Sensor right(D12, D11);
 
 int Sensor::getTrig()
 {
@@ -60,6 +60,5 @@ long Sensor::getReading()
     Serial.print(" cm ");
     Serial.print(cm);
     Serial.println();
-    delay(250);
     return cm;
 }
