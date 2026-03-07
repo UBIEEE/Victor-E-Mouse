@@ -131,6 +131,17 @@ void move(Position *position, int hori[16][17], int vert[17][16], int man[16][16
 
         int turn_amount = dir - cur_dir;
 
+        // If going from n -> w or w -> n, make it so it doesn't do a whole rotation
+        if (dir == 3 && cur_dir == 0)
+        {
+            turn_amount = -1;
+        }
+
+        if (dir == 0 && cur_dir == 3)
+        {
+            turn_amount = 1;
+        }
+
         while (turn_amount > 0)
         { // Turn right
             turnRight();
