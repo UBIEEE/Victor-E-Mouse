@@ -22,3 +22,5 @@ public:
     extern Sensor left;
     extern Sensor middle; //change when we have the third sensor later
     extern Sensor right;
+    float keepCenter();
+    void sensorLoop();

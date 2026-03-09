@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Drive.hpp>
+#include <math.h>
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +30,7 @@ static const int kRightDirectionMultiplier = 1;
  * Currently the units of distance are _wheel rotations_ for an encoder with 6
  * radial poles and a 50:1 gear ratio.
  */
-static const float kDistancePerTick = (1.f / (6.f * 50.f))*(25.13);
+static const float kDistancePerTick = ((1.f / (6.f * 50.f))*(25.13))*(10/21.61);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Static function prototypes
@@ -53,6 +54,7 @@ static unsigned long lastLoopTimeMs = 0;
 static float leftEncoderTicksPerSecond = 0.f;
 static float rightEncoderTicksPerSecond = 0.f;
 static unsigned long deltaTimeMs;
+float angularSpeed;
 
 float lprevEr=0;
 float lposEr=0;
@@ -62,12 +64,12 @@ float rposEr=0;
 float rtotalEr=0;
 float llast;
 float rlast;
-float lkp=.0002;
-float lki=.000;
-float lkd=0.00;
-float rkp=.0002;
+float lkp=.000092;
+float lki=.00000;
+float lkd=0.00000000;
+float rkp=.000092;
 float rki=.00000;
-float rkd=0.0000;
+float rkd=0.00000000;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -133,6 +135,8 @@ void driveLoop() {
 
   lastLoopTimeMs = currentTimeMs;
 
+  angularSpeed=(driveGetLeftEncoderVelocity()-driveGetRightEncoderVelocity())/10.8;
+
   // In the future, add PID control or other periodic drivetrain tasks.
 }
 float PIDHELPLEFT(float setpoint){
@@ -156,6 +160,9 @@ float PIDHELPRIGHT(float setpoint){
     rtotalEr=rtotalEr+rposEr*delta;
     rlast=now;
     return rkp*rposEr+rki*rtotalEr+rkd*vel;
+}
+float getAngularSpeed(){
+    return angularSpeed*(180/PI);
 }
 
 void driveSetRawSpeeds(float leftPercent, float rightPercent) {

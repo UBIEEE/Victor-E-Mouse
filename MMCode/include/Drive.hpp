@@ -60,6 +60,8 @@ float driveGetRightEncoderVelocity();
 float PIDHELPLEFT(float target);
 float PIDHELPRIGHT(float target);
 
+float getAngularSpeed();
+
 class PIDController {
   // Proportional
   float m_kp;

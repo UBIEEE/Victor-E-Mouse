@@ -1,5 +1,6 @@
 #include <sensor.h>
 #include <Arduino.h>
+#include <Drive.hpp>
 
 /*
  * created by Rui Santos, https://randomnerdtutorials.com
@@ -12,6 +13,19 @@
         Echo: Echo (OUTPUT) - Pin 12
         GND: GND
  */
+float cprevEr=0;
+float cposEr=0;
+float ctotalEr=0;
+float clast=0;
+float ckp=.000018;
+float cki=.00000;
+float ckd=0.00000000;
+
+long lastLeftReading;
+long lastRightReading;
+long lastMiddleReading;
+float distanceWhenLeftWallChange;
+float distanceWhenRightWallChange;
 
 Sensor::Sensor(int tPin, int ePin)
 {
@@ -61,4 +75,48 @@ long Sensor::getReading()
     Serial.print(cm);
     Serial.println();
     return cm;
+}
+float keepCenter(){
+    float wallExists=9;
+    float measurement=0;
+    if(left.getReading()<wallExists && right.getReading()<wallExists){
+        measurement=left.getReading()-right.getReading();
+    }
+    else if(left.getReading()<wallExists){
+        measurement=left.getReading()-7;
+    }
+    else if (right.getReading()<wallExists){
+        measurement=7-right.getReading();
+    }
+    float now=millis();
+    float setpoint=0;
+    float delta=now-clast;
+    cprevEr=cposEr;
+    cposEr=setpoint-measurement;
+    float vel=(cposEr-cprevEr)/delta;
+    ctotalEr=ctotalEr+cposEr*delta;
+    clast=now;
+    return ckp*cposEr+cki*ctotalEr+ckd*vel;
+}
+void sensorLoop()
+{
+    // Sensor Code
+    static int count = 0;
+    if ((++count * 10) % 250 == 0){
+        if(lastLeftReading!=0 && left.getReading()-lastLeftReading>=6){
+            distanceWhenLeftWallChange=driveGetLeftEncoderDistance();
+        }
+        if(lastRightReading!=0 && right.getReading()-lastRightReading>=6){
+            distanceWhenRightWallChange=driveGetRightEncoderDistance();
+        }
+        Serial.print("Left ");
+        lastLeftReading=left.getReading();
+        Serial.print(lastLeftReading);
+        Serial.print(" Right ");
+        lastRightReading=right.getReading();
+        Serial.print(lastRightReading);
+        Serial.print(" Middle");
+        lastMiddleReading=middle.getReading();
+        Serial.print(lastMiddleReading);
+    }
 }

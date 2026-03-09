@@ -4,72 +4,49 @@
 #include <Drive.hpp>
 #include <sensor.h>
 #include <api.hpp>
-float count = 0;
-float leftAdjustment = 1;
-float rightAdjustment = 1;
-float leftTotalError = 0;
-float rightTotalError = 0;
-static const float constant = .98;
-float diffTotalError = 0;
-
-/*float lprevEr=0;
-float lposEr=0;
-float ltotalEr=0;
-float rprevEr=0;
-float rposEr=0;
-float rtotalEr=0;
-float llast;
-float rlast;
-float kp=.03;
-float ki=.00007;
-float kd=0.015;
-*/
 
 void turnRight()
 {
+    straighten();
     forwardBeforeTurn();
     right90();
     forwardAfterTurn();
-    straighten();
 }
 
 void turnLeft()
 {
+    straighten();
     forwardBeforeTurn();
     left90();
     forwardAfterTurn();
-    straighten();
 }
 
 void moveForward()
 {
     bool complete = false;
-    driveResetEncoderDistance(); // resets distance
     while (!complete)
     {
-        count = count + 1; // adds a count of distance travel functions called
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
         float targetturnleft = 10;
         float targetturnright = 10; // values for distance wanted to travel per wheel
         float rightSpeed=.24;
         float leftSpeed=.24;
-        while (driveGetLeftEncoderDistance() < targetturnleft - rightAdjustment && driveGetRightEncoderDistance() < targetturnright - leftAdjustment)
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            leftSpeed =+ PIDHELPLEFT(1);
-            rightSpeed =+ PIDHELPRIGHT(1);
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
         float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        diffTotalError =diffTotalError+(leftTotalError-rightTotalError);
-        leftAdjustment = -(diffTotalError/count) * constant;
-        rightAdjustment = (diffTotalError/count) * constant;
         complete = true;
         
     }
-    straighten();
 }
 
 void straighten()
@@ -140,156 +117,168 @@ bool frontWall()
 void right90()
 {
     bool complete = false;
-    driveResetEncoderDistance();
     while (!complete)
     {
-        count = count + 1;
-        float targetturnleft = 1.2875; // adjust
-        float targetturnright = -1.2875;
-        while (driveGetLeftEncoderDistance() < targetturnleft * leftAdjustment && driveGetRightEncoderDistance() < -(targetturnright * rightAdjustment))
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
+        float targetturnleft = 1.2875;
+        float targetturnright = -1.2875; // values for distance wanted to travel per wheel
+        float rightSpeed=.24;
+        float leftSpeed=.24;
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            float leftSpeed = 1;
-            float rightSpeed = -1;
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
-        float leftError = driveGetLeftEncoderDistance() - targetturnleft;
+        float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        leftAdjustment = constant * (leftTotalError / count);
-        rightAdjustment = constant * (rightTotalError / count);
         complete = true;
+        
     }
 }
 
 void left90()
 {
     bool complete = false;
-    driveResetEncoderDistance();
     while (!complete)
     {
-        count = count + 1;
-        float targetturnleft = -1.2875; // adjust
-        float targetturnright = 1.2875;
-        while (driveGetLeftEncoderDistance() < -(targetturnleft * leftAdjustment) && driveGetRightEncoderDistance() < targetturnright * rightAdjustment)
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
+        float targetturnleft = -1.2875;
+        float targetturnright = 1.2875; // values for distance wanted to travel per wheel
+        float rightSpeed=.24;
+        float leftSpeed=.24;
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            float leftSpeed = -1;
-            float rightSpeed = 1;
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
-        float leftError = driveGetLeftEncoderDistance() - targetturnleft;
+        float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        leftAdjustment = constant * (leftTotalError / count);
-        rightAdjustment = constant * (rightTotalError / count);
         complete = true;
+        
     }
 }
 
 void forwardBeforeTurn()
 {
     bool complete = false;
-    driveResetEncoderDistance();
     while (!complete)
     {
-        count = count + 1;
-        float targetturnleft = 0; // adjust
-        float targetturnright = 0;
-        while (driveGetLeftEncoderDistance() < targetturnleft * leftAdjustment && driveGetRightEncoderDistance() < targetturnright * rightAdjustment)
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
+        float targetturnleft = 10;
+        float targetturnright = 10; // values for distance wanted to travel per wheel
+        float rightSpeed=.24;
+        float leftSpeed=.24;
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            float leftSpeed = 1;
-            float rightSpeed = 1;
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
-        float leftError = driveGetLeftEncoderDistance() - targetturnleft;
+        float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        leftAdjustment = constant * (leftTotalError / count);
-        rightAdjustment = constant * (rightTotalError / count);
         complete = true;
+        
     }
 }
 
 void forwardAfterTurn()
 {
     bool complete = false;
-    driveResetEncoderDistance();
     while (!complete)
     {
-        count = count + 1;
-        float targetturnleft = 0; // adjust
-        float targetturnright = 0;
-        while (driveGetLeftEncoderDistance() < targetturnleft * leftAdjustment && driveGetRightEncoderDistance() < targetturnright * rightAdjustment)
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
+        float targetturnleft = 10;
+        float targetturnright = 10; // values for distance wanted to travel per wheel
+        float rightSpeed=.24;
+        float leftSpeed=.24;
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            float leftSpeed = 1;
-            float rightSpeed = 1;
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
-        float leftError = driveGetLeftEncoderDistance() - targetturnleft;
+        float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        leftAdjustment = constant * (leftTotalError / count);
-        rightAdjustment = constant * (rightTotalError / count);
         complete = true;
+        
     }
 }
 
 void backward()
 {
     bool complete = false;
-    driveResetEncoderDistance();
     while (!complete)
     {
-        count = count + 1;
-        float targetturnleft = 0; // adjust
-        float targetturnright = 0;
-        while (driveGetLeftEncoderDistance() < targetturnleft * leftAdjustment && driveGetRightEncoderDistance() < targetturnright * rightAdjustment)
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
+        float targetturnleft = 10;
+        float targetturnright = 10; // values for distance wanted to travel per wheel
+        float rightSpeed=.24;
+        float leftSpeed=.24;
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            float leftSpeed = -1;
-            float rightSpeed = -1;
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
-        float leftError = driveGetLeftEncoderDistance() - targetturnleft;
+        float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        leftAdjustment = constant * (leftTotalError / count);
-        rightAdjustment = constant * (rightTotalError / count);
         complete = true;
+        
     }
 }
 
 void forwardToCenter()
 {
     bool complete = false;
-    driveResetEncoderDistance();
     while (!complete)
     {
-        count = count + 1;
-        float targetturnleft = 0; // adjust
-        float targetturnright = 0;
-        while (driveGetLeftEncoderDistance() < targetturnleft * leftAdjustment && driveGetRightEncoderDistance() < targetturnright * rightAdjustment)
+        straighten();
+        float prevLeftDist=driveGetLeftEncoderDistance();
+        float prevRightDist=driveGetRightEncoderDistance();
+        float targetturnleft = 10;
+        float targetturnright = 10; // values for distance wanted to travel per wheel
+        float rightSpeed=.24;
+        float leftSpeed=.24;
+        while (driveGetLeftEncoderDistance()-prevLeftDist < targetturnleft && driveGetRightEncoderDistance()-prevRightDist < targetturnright)
         {
-            float leftSpeed = 1;
-            float rightSpeed = 1;
+            leftSpeed += PIDHELPLEFT(15);
+            leftSpeed+=keepCenter();
+            rightSpeed-=keepCenter();
+            rightSpeed += PIDHELPRIGHT(15);
             driveSetRawSpeeds(leftSpeed, rightSpeed);
         }
         driveStop();
-        float leftError = driveGetLeftEncoderDistance() - targetturnleft;
+        float leftError = driveGetLeftEncoderDistance() - targetturnleft; // difference between target and value traveled
         float rightError = driveGetRightEncoderDistance() - targetturnright;
-        leftTotalError = (leftTotalError + leftError); // add difference and divide
-        rightTotalError = (rightTotalError + rightError);
-        leftAdjustment = constant * (leftTotalError / count);
-        rightAdjustment = constant * (rightTotalError / count);
         complete = true;
+        
     }
 }
 
@@ -322,17 +311,3 @@ void goalTurnAround()
         moveForward();
     }
 }
-/*
-float DistanceAccPIDishThingLeft(float target){
-    count=+1;
-    float now=millis();
-    float setpoint=driveGetLeftEncoderDistance();
-    float delta=now-llast;
-    lprevEr=lposEr;
-    lposEr=target-setpoint;
-    float vel=(lposEr-lprevEr);
-    ltotalEr=ltotalEr+lposEr;
-    llast=now;
-    return kp*lposEr+ki*ltotalEr+kd*vel;
-}
-*/
