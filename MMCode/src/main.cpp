@@ -96,7 +96,10 @@ void loop()
             Serial.print(driveGetLeftEncoderVelocity());
             Serial.print(" Right Velocity: ");
             Serial.print(driveGetRightEncoderVelocity());
+            Serial.print("Angle Velocity");
+            Serial.print(getAngularSpeed());
             Serial.println();
+            
         }
         FLAG=IDLEWITHPATH;
         // put initial path finding here and have it stop where it started and set Flag to 2 at the end
