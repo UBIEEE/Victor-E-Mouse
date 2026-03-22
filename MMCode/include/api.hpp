@@ -34,3 +34,9 @@ void backward();
 void straighten();
 
 void forwardToCenter();
+
+void firstForward();
+float trapazoidRight(float targetDist, float numberItAddsTo, float startingDist, float currentDist);
+float trapazoidLeft(float targetDist, float numberItAddsTo, float startingDist,  float currentDist);
+float trapazoidRightStraight(float targetDist, float numberItAddsTo, float startingDist, float currentDist);
+float trapazoidLeftStraight(float targetDist, float numberItAddsTo, float startingDist, float currentDist);

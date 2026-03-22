@@ -5,6 +5,14 @@
 #include <floodfill.hpp>
 #include <api.hpp>
 
+int hori[16][17];
+int vert[17][16];
+int man[16][16];
+char *goal;
+struct Position *position;
+
+
+
 static const int kButtonPin = D10;
 static const int kfunnyButtonPin=A5;
 static Button smallButton;
@@ -22,8 +30,7 @@ const int FINDING = 1;
 const int IDLEWITHPATH = 2;
 const int EXECUTE = 3;
 int FLAG = IDLE;
-float leftSpeed=.4;
-float rightSpeed=.4;
+const int FORCEIDLE=0;
 
 
 void sensorSetup()
@@ -47,10 +54,93 @@ void setup()
     sensorSetup();
 }
 
-
-void loop()
+    float leftspeed=0.00000;
+    float rightspeed=0.00000;
+/*
+    void loop()
 {   
-   static int count = 0;
+    
+    driveLoop();
+    sensorLoop();
+    if(smallButton.isPressed() && FLAG==0){
+        delay(500);
+        FLAG=1;
+    }
+    if (FLAG==1){
+        firstForward();       
+        moveForward();
+        moveForward();
+        moveForward();
+        forwardBeforeTurn();
+        right90();
+        FLAG=2;
+    }
+    else {
+        driveStop();
+    }
+
+    driveLoop();
+    sensorLoop();
+    //leftspeed+=PIDHELPLEFT(3);
+    //rightspeed+=PIDHELPRIGHT(3);
+    //driveSetRawSpeeds(leftspeed,rightspeed);
+    static int count=0;
+    if(count++ % 50 == 0){
+        Serial.print("left");
+        //Serial.print(leftspeed);
+        Serial.println();
+        Serial.print("right");
+        //Serial.print(rightspeed);
+        Serial.println();
+        Serial.print("\n");
+        Serial.print("Left Distance: ");
+        Serial.print(driveGetLeftEncoderDistance());
+        Serial.print(" Right Distance: ");
+        Serial.print(driveGetRightEncoderDistance());
+        Serial.print(" Left Velocity: ");
+        Serial.print(driveGetLeftEncoderVelocity());
+        Serial.print(" Right Velocity: ");
+        Serial.print(driveGetRightEncoderVelocity());
+        Serial.println();
+        Serial.print("Button: ");
+        Serial.print(bigButton.isPressed());
+        Serial.println();
+        Serial.print(" Flag: ");
+        Serial.print(FLAG);
+        Serial.println();
+        Serial.print("Left ");
+        int leftsens=left.getReading();
+        Serial.print(leftsens);
+        Serial.print(" Right ");
+        int rightsens=right.getReading();
+        Serial.print(rightsens);
+        Serial.print(" Middle");
+        int middlesens=middle.getReading();
+        Serial.print(middlesens);
+    }
+        */
+
+
+
+
+    /*static float leftSpeed=.24;
+    static float rightSpeed=.24;
+    driveLoop();
+    sensorLoop();
+    leftSpeed +=PIDHELPLEFT(20);
+    static int count=0;
+    if(count++ % 2500 == 0){
+    Serial.print("left");
+    Serial.print(leftSpeed);
+    Serial.println();
+    Serial.print("right");
+    Serial.print(rightSpeed);
+    Serial.println();
+    }
+    rightSpeed +=PIDHELPRIGHT(20);
+    driveSetRawSpeeds(leftSpeed,rightSpeed);
+    */
+   /*static int count = 0;
     if ((++count * 10) % 250 == 0){
         Serial.print("\n");
         Serial.print("Left Distance: ");
@@ -70,50 +160,62 @@ void loop()
         Serial.println();
     }
     // Use the button to control the drivetrain for demo
-    if (bigButton.isPressed() && FLAG==IDLE)
+    if (smallButton.isPressed() && FLAG==IDLE)
     {
-        FLAG = FINDING;
+        FLAG=FINDING;
+        driveLoop();
+        sensorLoop();
     }
-    if (FLAG == FINDING)
-    {
-        while(driveGetLeftEncoderDistance()<100 && driveGetRightEncoderDistance()<100){
-            leftSpeed += PIDHELPLEFT(15);
-            rightSpeed += PIDHELPRIGHT(15);
-            leftSpeed+=keepCenter();
-            rightSpeed-=keepCenter();
-            Serial.print("left speed");
-            Serial.println(leftSpeed);
-            Serial.println();
-            Serial.print("right speed");
-            Serial.print(rightSpeed);
-            Serial.println();
-            driveSetRawSpeeds(leftSpeed, rightSpeed);
-            Serial.print("Left Distance: ");
-            Serial.print(driveGetLeftEncoderDistance());
-            Serial.print(" Right Distance: ");
-            Serial.print(driveGetRightEncoderDistance());
-            Serial.print(" Left Velocity: ");
-            Serial.print(driveGetLeftEncoderVelocity());
-            Serial.print(" Right Velocity: ");
-            Serial.print(driveGetRightEncoderVelocity());
-            Serial.print("Angle Velocity");
-            Serial.print(getAngularSpeed());
-            Serial.println();
-            
-        }
-        FLAG=IDLEWITHPATH;
+    if (FLAG == FINDING){
+        driveLoop();
+        sensorLoop();
+        left90();
+
+    }
         // put initial path finding here and have it stop where it started and set Flag to 2 at the end
-    }
     if ( FLAG == IDLEWITHPATH)
     {
-        driveStop();
+        driveLoop();
+        sensorLoop();
         FLAG = EXECUTE;
     }
-    if (FLAG == EXECUTE)
+    if (FLAG == EXECUTE)    
     {
-        // have it run to the middle of the maze and set flag to 0 at the end
+        driveLoop();
+        sensorLoop();
+        FLAG=IDLE;    // have it run to the middle of the maze and set flag to 0 at the end
+    }
+    if(bigButton.isPressed()){
+        driveLoop();
+        sensorLoop();
+        driveStop();
     }
     sensorLoop();
     driveLoop();
     delay(10);
+    */
+//}
+
+//main loop not for testing
+void loop(){
+    driveLoop();
+    sensorLoop();
+    if(smallButton.isPressed() && FLAG==IDLE){
+        FLAG=FINDING;
+    }
+    if(FLAG==FINDING){
+        floodfill(hori,vert,man, goal);
+        FLAG=IDLEWITHPATH;
+    }
+    if(smallButton.isPressed() && FLAG==IDLEWITHPATH){
+        FLAG=EXECUTE;
+    }
+    if(FLAG==EXECUTE){
+        move(position,hori,vert,man,goal);
+        FLAG==IDLE;
+    }
+    if(bigButton.isPressed()){
+        driveStop();
+        FLAG=FORCEIDLE;
+    }
 }

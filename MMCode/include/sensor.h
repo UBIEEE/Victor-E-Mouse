@@ -24,3 +24,8 @@ public:
     extern Sensor right;
     float keepCenter();
     void sensorLoop();
+    float GetDistWhenLeftWallChange();
+    float GetDistWhenRightWallChange();
+    int getFilterLeft();
+    int getFilterRight();
+    int getFilterMiddle();

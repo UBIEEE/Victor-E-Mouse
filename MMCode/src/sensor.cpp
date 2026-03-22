@@ -17,15 +17,24 @@ float cprevEr=0;
 float cposEr=0;
 float ctotalEr=0;
 float clast=0;
-float ckp=.000018;
+float ckp=.05;
 float cki=.00000;
 float ckd=0.00000000;
 
-long lastLeftReading;
-long lastRightReading;
-long lastMiddleReading;
 float distanceWhenLeftWallChange;
 float distanceWhenRightWallChange;
+int last1LeftReading=0;
+int last2LeftReading=0;
+int last3LeftReading=0;
+int last1RightReading=0;
+int last2RightReading=0;
+int last3RightReading=0;
+int last1MiddleReading=0;
+int last2MiddleReading=0;
+int last3MiddleReading=0;
+int filteredLeft=0;
+int filteredRight=0;
+int filteredMiddle=0;
 
 Sensor::Sensor(int tPin, int ePin)
 {
@@ -69,11 +78,12 @@ long Sensor::getReading()
     // Convert the time into a distance
     cm = (duration / 2) / 29.1;   // Divide by 29.1 or multiply by 0.0343
     inches = (duration / 2) / 74; // Divide by 74 or multiply by 0.0135
-    Serial.print("in ");
+   /* Serial.print("in ");
     Serial.print(inches);
     Serial.print(" cm ");
     Serial.print(cm);
     Serial.println();
+    */
     return cm;
 }
 float keepCenter(){
@@ -101,14 +111,50 @@ float keepCenter(){
 void sensorLoop()
 {
     // Sensor Code
-    static int count = 0;
-    if ((++count * 10) % 250 == 0){
-        if(lastLeftReading!=0 && left.getReading()-lastLeftReading>=6){
+    driveLoop();
+        if(filteredLeft!=0 && left.getReading()-filteredLeft>=25){
             distanceWhenLeftWallChange=driveGetLeftEncoderDistance();
         }
-        if(lastRightReading!=0 && right.getReading()-lastRightReading>=6){
+        if(filteredRight!=0 && right.getReading()-filteredRight>=25){
             distanceWhenRightWallChange=driveGetRightEncoderDistance();
         }
+        last1LeftReading=left.getReading();
+        last2LeftReading=last1LeftReading;
+        last3LeftReading=last2LeftReading;
+        last1RightReading=right.getReading();
+        last2RightReading=last1RightReading;
+        last3RightReading=last2RightReading;
+        last1MiddleReading=middle.getReading();
+        last2MiddleReading=last1RightReading;
+        last3MiddleReading=last2RightReading;
+        if(last1LeftReading<=last2LeftReading<=last3LeftReading || last3LeftReading<=last2LeftReading<=last1LeftReading){
+            filteredLeft=last2LeftReading;
+        }
+        else if (last2LeftReading<=last1LeftReading<=last3LeftReading || last3LeftReading<=last1LeftReading<=last2LeftReading){
+            filteredLeft=last1LeftReading;
+        }
+        else {
+            filteredLeft=last3LeftReading;
+        }
+        if(last1RightReading<=last2RightReading<=last3RightReading || last3RightReading<=last2RightReading<=last1RightReading){
+            filteredRight=last2RightReading;
+        }
+        else if (last2RightReading<=last1RightReading<=last3RightReading || last3RightReading<=last1RightReading<=last2RightReading){
+            filteredRight=last1RightReading;
+        }
+        else {
+            filteredRight=last3RightReading;
+        }
+        if(last1MiddleReading<=last2MiddleReading<=last3MiddleReading || last3MiddleReading<=last2MiddleReading<=last1MiddleReading){
+            filteredMiddle=last2MiddleReading;
+        }
+        else if (last2MiddleReading<=last1MiddleReading<=last3MiddleReading || last3MiddleReading<=last1MiddleReading<=last2MiddleReading){
+            filteredMiddle=last1MiddleReading;
+        }
+        else {
+            filteredMiddle=last3MiddleReading;
+        }
+        /*
         Serial.print("Left ");
         lastLeftReading=left.getReading();
         Serial.print(lastLeftReading);
@@ -118,5 +164,23 @@ void sensorLoop()
         Serial.print(" Middle");
         lastMiddleReading=middle.getReading();
         Serial.print(lastMiddleReading);
-    }
+        */
+       delay(3);
+}
+float GetDistWhenLeftWallChange(){
+    return distanceWhenLeftWallChange;
+}
+
+float GetDistWhenRightWallChange(){
+    return distanceWhenRightWallChange;
+}
+
+int getFilterLeft(){
+   return filteredLeft;
+}
+int getFilterRight(){
+   return filteredRight;
+}
+int getFilterMiddle(){
+   return filteredMiddle;
 }

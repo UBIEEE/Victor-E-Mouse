@@ -64,12 +64,12 @@ float rposEr=0;
 float rtotalEr=0;
 float llast;
 float rlast;
-float lkp=.000092;
-float lki=.00000;
-float lkd=0.00000000;
-float rkp=.000092;
-float rki=.00000;
-float rkd=0.00000000;
+float lkp=.002;
+float lki=.00000005;
+float lkd=0.0000000000;
+float rkp=.002;
+float rki=.00000005;
+float rkd=0.0000000000;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -126,8 +126,8 @@ void driveLoop() {
     const long deltaRightTicks =
         currentRightEncoderTicks - lastLoopRightEncoderTicks;
 
-    leftEncoderTicksPerSecond = (deltaLeftTicks * 1000.f) / deltaTimeMs;
-    rightEncoderTicksPerSecond = (deltaRightTicks * 1000.f) / deltaTimeMs;
+    leftEncoderTicksPerSecond = (deltaLeftTicks * 100.f) / deltaTimeMs;
+    rightEncoderTicksPerSecond = (deltaRightTicks * 100.f) / deltaTimeMs;
 
     lastLoopLeftEncoderTicks = currentLeftEncoderTicks;
     lastLoopRightEncoderTicks = currentRightEncoderTicks;
@@ -135,9 +135,10 @@ void driveLoop() {
 
   lastLoopTimeMs = currentTimeMs;
 
-  angularSpeed=(driveGetLeftEncoderVelocity()-driveGetRightEncoderVelocity())/10.8;
+  //angularSpeed=(driveGetLeftEncoderVelocity()-driveGetRightEncoderVelocity())/10.8;
 
   // In the future, add PID control or other periodic drivetrain tasks.
+  delay(3);
 }
 float PIDHELPLEFT(float setpoint){
     float now=millis();
