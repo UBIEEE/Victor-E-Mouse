@@ -389,7 +389,7 @@ void forwardToCenter()
     }
 }
 
-void goalTurnAround()
+/*void goalTurnAround()
 {
     if (left.getReading() < 1)
     { // adjust
@@ -418,6 +418,13 @@ void goalTurnAround()
         moveForward();
     }
 }
+    */
+   void goalTurnAround(){
+    moveForward();
+    left90();
+    left90();
+    moveForward();
+   }
 
 float trapazoidLeft(float targetDist, float numberItAddsTo, float began, float currentDist){
     driveLoop();
