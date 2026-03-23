@@ -11,7 +11,8 @@ int man[16][16];
 char *goal;
 struct Position *position;
 
-
+void resetLearned(){
+}
 
 static const int kButtonPin = D10;
 static const int kfunnyButtonPin=A5;
@@ -54,8 +55,8 @@ void setup()
     sensorSetup();
 }
 
-    float leftspeed=0.00000;
-    float rightspeed=0.00000;
+    //float leftspeed=0.00000;
+    //float rightspeed=0.00000;
 /*
     void loop()
 {   
@@ -201,6 +202,7 @@ void loop(){
     driveLoop();
     sensorLoop();
     if(smallButton.isPressed() && FLAG==IDLE){
+        delay(500);
         FLAG=FINDING;
     }
     if(FLAG==FINDING){
@@ -208,14 +210,17 @@ void loop(){
         FLAG=IDLEWITHPATH;
     }
     if(smallButton.isPressed() && FLAG==IDLEWITHPATH){
+        delay(500);
         FLAG=EXECUTE;
     }
     if(FLAG==EXECUTE){
         move(position,hori,vert,man,goal);
         FLAG==IDLE;
+        //resetLearned();
     }
     if(bigButton.isPressed()){
         driveStop();
+        //resetLearned();
         FLAG=FORCEIDLE;
     }
 }

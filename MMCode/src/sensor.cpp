@@ -165,7 +165,7 @@ void sensorLoop()
         lastMiddleReading=middle.getReading();
         Serial.print(lastMiddleReading);
         */
-       delay(3);
+       delay(40);
 }
 float GetDistWhenLeftWallChange(){
     return distanceWhenLeftWallChange;
